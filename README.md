@@ -1,6 +1,5 @@
-# SU-CSexpA-day11
+# yarare-app
 
 ```
 docker compose up
 ```
-# yarare-app
