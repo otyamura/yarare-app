@@ -1,14 +1,14 @@
 version: "3"
 services:
   my-apache-php:
+    privileged: true
     build:
       context: ./
       dockerfile: ./Dockerfile
     ports:
       - 80:80
       - 20022:20022
-    depends_on:
-      - db
     volumes:
       - ./app:/var/www/html/
       - ./backup_app:/var/www/backup_html/
+    command: /sbin/init

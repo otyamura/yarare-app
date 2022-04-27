@@ -1,29 +1,43 @@
-FROM php:7.2-apache
+FROM centos:centos8
 
-RUN apt-get update
-RUN apt-get install -y vim
-RUN docker-php-ext-install mbstring
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
-COPY app/* /var/www/html/
-COPY backup_app/* /var/www/backup_html/
+RUN yum install -y epel-release && yum clean all
+
+RUN yum -y update && yum clean all
+
+# yum
+RUN yum -y update && yum clean all
+RUN yum -y install httpd
+RUN yum -y install php
 # ssh接続
-RUN apt-get install -y --no-install-recommends openssh-server
-RUN mkdir /var/run/sshd
-
-# ARG ROOT_PASS
-RUN echo root:root | chpasswd
+RUN yum install -y openssh-server
 
 RUN sed -i 's/#\?PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#Port 22/Port 20022/' /etc/ssh/sshd_config
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
+RUN ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key
 EXPOSE 20022
-RUN a2enmod rewrite
-CMD ["/usr/sbin/sshd", "-D"]
+
+# user作成
+COPY useradd.sh .
+RUN chmod +x useradd.sh
+RUN ./useradd.sh
+RUN echo 'root:root' | chpasswd
+
+# httpd
+RUN chown -R apache:apache /var/www/html
+
+RUN sed -i 's/;listen.owner \= nobody/listen.owner \= apache/' /etc/php-fpm.d/www.conf
+RUN sed -i 's/;listen.group \= nobody/listen.group \= apache/' /etc/php-fpm.d/www.conf
+RUN sed -i 's/listen.acl_users \= apache,nginx/;listen.acl_users \= apache,nginx/' /etc/php-fpm.d/www.conf
+RUN sed -i 's/AllowOverride none/AllowOverride All/g' /etc/httpd/conf/httpd.conf
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/httpd/conf/httpd.conf
+
+RUN sed -i 's/^#LogLevel INFO/LogLevel INFO/' /etc/ssh/sshd_config
 
 
-# make user
-# ARG UID=1000
-# RUN useradd -m -u ${UID} suzuki
+RUN systemctl enable php-fpm
+RUN systemctl enable httpd
+CMD ["sleep", "infinity"]
