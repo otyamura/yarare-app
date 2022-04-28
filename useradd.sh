@@ -7,4 +7,5 @@ do
   useradd -m $user
   echo "$user:$user" | chpasswd
   echo "$user ALL=(ALL) ALL" >> /etc/sudoers
+  chmod 711 /home/$user/
 done

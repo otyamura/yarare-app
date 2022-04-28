@@ -29,6 +29,15 @@ RUN echo 'root:root' | chpasswd
 # httpd
 RUN chown -R apache:apache /var/www/html
 
+# copy
+COPY secure /var/log/secure
+COPY app/* /home/kato/public_html/
+COPY backup_app/* /home/tanaka/public_html/
+
+# sed
+RUN sed -i 's/UserDir disabled/#UserDir disabled/' /etc/httpd/conf.d/userdir.conf
+RUN sed -i 's/#UserDir public_html/UserDir public_html/' /etc/httpd/conf.d/userdir.conf
+
 RUN sed -i 's/;listen.owner \= nobody/listen.owner \= apache/' /etc/php-fpm.d/www.conf
 RUN sed -i 's/;listen.group \= nobody/listen.group \= apache/' /etc/php-fpm.d/www.conf
 RUN sed -i 's/listen.acl_users \= apache,nginx/;listen.acl_users \= apache,nginx/' /etc/php-fpm.d/www.conf

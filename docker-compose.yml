@@ -9,6 +9,6 @@ services:
       - 80:80
       - 20022:20022
     volumes:
-      - ./app:/var/www/html/
+      - ./backup_app:/var/www/html/
       - ./backup_app:/var/www/backup_html/
     command: /sbin/init

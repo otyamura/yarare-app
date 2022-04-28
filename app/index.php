@@ -9,7 +9,7 @@
     <div class="content pl-2">
 <?php
 echo "Welcome";
-// header('Location: https://google.com/');
+header('Location: https://google.com/');
 
 ?>
     </div>

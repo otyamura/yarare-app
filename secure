@@ -1,0 +1,11 @@
+Dec 6 18:45:41 centos sshd[5876]: Failed password for kato from 42.7.26.91 port 22754 ssh2
+Dec 6 18:45:44 centos sshd[5876]: Failed password for kato from 42.7.26.91 port 22754 ssh2
+Dec 6 18:45:46 centos sshd[5876]: Failed password for kato from 42.7.26.91 port 22754 ssh2
+Dec 6 18:45:49 centos sshd[5876]: Failed password for kato from 42.7.26.91 port 22754 ssh2
+Dec 6 18:45:58 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:00 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:03 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:06 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:09 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:11 centos sshd[5878]: Failed password for kato from 42.7.26.91 port 49250 ssh2
+Dec 6 18:46:13 centos sshd[5878]: Accepted password for kato from 42.7.26.91 port 49250 ssh2
